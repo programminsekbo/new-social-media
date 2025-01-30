@@ -13,7 +13,6 @@ import { FaThumbsUp, FaComment, FaShareAlt } from "react-icons/fa";
 
 const MainContent = () => {
   const {
-   
     sharePost,
     unsharePost,
     BlogList,
@@ -33,68 +32,41 @@ const MainContent = () => {
     CommentBlogRequest,
     CommentDetailsRequest,
   } = CommentStore();
- 
 
   const [updateShow, setUpdateShow] = useState(false);
   const [selectedBlog, setSelectedBlog] = useState(null);
   const { darkMode, toggleTheme } = useTheme();
 
-
-
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const [selectedPostId, setSelectedPostId] = useState(null); // Declare selectedPostId state
 
-
-
-  const handleShow = (id) => {
-       setShow(true);
-      setSelectedPostId(id); // Store the current post ID in state
+  const handleShow = id => {
+    setShow(true);
+    setSelectedPostId(id); // Store the current post ID in state
   };
 
   const handleSave = async postId => {
     const requestData = { ...CommentBlogFormValue, postId };
 
     try {
-    await CommentBlogRequest(requestData);
-    await CommentDetailsRequest(selectedPostId);
-    CommentBlogFormOnChange("text", "");
-    toast.success("Blog Updated Success");
-    await BlogListRequest();
-   
-    
-    
+      await CommentBlogRequest(requestData);
+      await CommentDetailsRequest(selectedPostId);
+      CommentBlogFormOnChange("text", "");
+      toast.success("Blog Updated Success");
+      await BlogListRequest();
     } catch (err) {
-    
-      toast.error("Creating comment failed: " , err.message);
+      toast.error("Creating comment failed: ", err.message);
     }
   };
- 
- 
-  
-
-
-
-
-
-
-
-
-
-
-
-
 
   useEffect(() => {
     if (selectedPostId) {
-     
       (async () => {
         await CommentDetailsRequest(selectedPostId);
       })();
     }
   }, [selectedPostId]);
-
-
 
   const UpdateModalClose = () => setUpdateShow(false);
   const UpdateModalShow = blog => {
@@ -347,95 +319,87 @@ const MainContent = () => {
             </div>
           )}
 
-      
-
-
-
-
-
-
-
-
-
-
- 
-          
-<Modal show={show} onHide={handleClose} centered>
-  <Modal.Header closeButton>
-    <Modal.Title className="text-primary">Create New Blog</Modal.Title>
-  </Modal.Header>
-  <Modal.Body>
-    <Form>
-      {CommentDetails && CommentDetails.length > 0 ? (
-        <div className="container my-4">
-          <h4 className="mb-4">Comments</h4>
-          <ul className="list-group">
-            {CommentDetails.map((comment, index) => (
-              <li key={index} className="list-group-item d-flex align-items-start">
-                <img
-                  src="https://placehold.co/800?text=No+Image"
-                  alt="Profile"
-                  className="rounded-circle me-3"
-                  style={{ width: "50px", height: "50px", objectFit: "cover" }}
-                />
-                <div className="flex-grow-1">
-                  <div className="d-flex justify-content-between align-items-center">
-                    <strong className="text-primary">
-                      {comment.userID?.firstName} {comment.userID?.lastName}
-                    </strong>
-                    <small className="text-muted">
-                      {new Date().toLocaleDateString()} {new Date().toLocaleTimeString()}
-                    </small>
+          <Modal show={show} onHide={handleClose} centered>
+            <Modal.Header closeButton>
+              <Modal.Title className="text-primary">
+                Create New Blog
+              </Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <Form>
+                {CommentDetails && CommentDetails.length > 0 ? (
+                  <div className="container my-4">
+                    <h4 className="mb-4">Comments</h4>
+                    <ul className="list-group">
+                      {CommentDetails.map((comment, index) => (
+                        <li
+                          key={index}
+                          className="list-group-item d-flex align-items-start"
+                        >
+                          <img
+                            src="https://placehold.co/800?text=No+Image"
+                            alt="Profile"
+                            className="rounded-circle me-3"
+                            style={{
+                              width: "50px",
+                              height: "50px",
+                              objectFit: "cover",
+                            }}
+                          />
+                          <div className="flex-grow-1">
+                            <div className="d-flex justify-content-between align-items-center">
+                              <strong className="text-primary">
+                                {comment.userID?.firstName}{" "}
+                                {comment.userID?.lastName}
+                              </strong>
+                              <small className="text-muted">
+                                {new Date().toLocaleDateString()}{" "}
+                                {new Date().toLocaleTimeString()}
+                              </small>
+                            </div>
+                            <p className="mb-1">{comment.text}</p>
+                          </div>
+                        </li>
+                      ))}
+                    </ul>
                   </div>
-                  <p className="mb-1">{comment.text}</p>
-                </div>
-              </li>
-            ))}
-          </ul>
-        </div>
-      ) : (
-        <div className="container my-4">
-          <p className="text-muted text-center">No comments available.</p>
-        </div>
-      )}
-    </Form>
-  </Modal.Body>
-  <Modal.Footer>
-    <div className="w-100">
-      <Form.Group className="mb-3">
-        <Form.Label className="fw-bold">Write a Comment</Form.Label>
-        <div className="d-flex">
-          {/* Input field for comment */}
-          <Form.Control
-            value={CommentBlogFormValue.text}
-            onChange={(event) => CommentBlogFormOnChange("text", event.target.value)}
-            as="input"
-            type="text"
-            placeholder="Enter your comment..."
-            className="border-primary flex-grow-1 me-2"
-          />
-          {/* Post button */}
-          <Button
-            variant="primary"
-            onClick={(event) => handleSave(selectedPostId, event)}
-          >
-            Post
-          </Button>
-        </div>
-      </Form.Group>
-    </div>
-  </Modal.Footer>
-</Modal>
-
-
-
-
-
-
-
-
-
-
+                ) : (
+                  <div className="container my-4">
+                    <p className="text-muted text-center">
+                      No comments available.
+                    </p>
+                  </div>
+                )}
+              </Form>
+            </Modal.Body>
+            <Modal.Footer>
+              <div className="w-100">
+                <Form.Group className="mb-3">
+                  <Form.Label className="fw-bold">Write a Comment</Form.Label>
+                  <div className="d-flex">
+                    {/* Input field for comment */}
+                    <Form.Control
+                      value={CommentBlogFormValue.text}
+                      onChange={event =>
+                        CommentBlogFormOnChange("text", event.target.value)
+                      }
+                      as="input"
+                      type="text"
+                      placeholder="Enter your comment..."
+                      className="border-primary flex-grow-1 me-2"
+                    />
+                    {/* Post button */}
+                    <Button
+                      variant="primary"
+                      onClick={event => handleSave(selectedPostId, event)}
+                    >
+                      Post
+                    </Button>
+                  </div>
+                </Form.Group>
+              </div>
+            </Modal.Footer>
+          </Modal>
 
           {/* Update Blog Modal */}
           <Modal show={updateShow} onHide={UpdateModalClose}>

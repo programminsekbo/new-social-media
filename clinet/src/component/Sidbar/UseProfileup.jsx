@@ -136,29 +136,6 @@ export default UseProfileup;
 
 
 
-  {/* {CommentDetails && CommentDetails.length > 0 ? (
-  <ul  className="list-group my-4">
-    {CommentDetails.map((comment, index) => (
-      <li key={index}>
-          <img
-                            src="https://placehold.co/800?text=No+Image"
-                            alt="Profile"
-                            className="rounded-circle me-3"
-                            style={{ width: "40px", height: "40px" }}
-                          />
-        <strong>{comment.userID?.firstName} {comment.userID?.lastName}</strong>
-        <p>{comment.text}</p>
-
-        <small className="text-muted">1/2/2020,1.30</small>
-      </li>
-    ))}
-  </ul>
-) : (
-  <p>No comments available.</p>
-)} */}
-
-
-
 
 
 

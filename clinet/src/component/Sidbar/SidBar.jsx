@@ -89,7 +89,7 @@ const SidBar = () => {
     <>
       {/* Sidebar */}
       <aside
-        className="col-md-3 col-12 "
+        className="col-md-3 col-12"
         style={{
           paddingLeft: "50px",
           paddingTop: "30px",

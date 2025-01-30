@@ -7,54 +7,34 @@ import { Button, Form, Modal } from "react-bootstrap";
 import toast from "react-hot-toast";
 
 const Profile = () => {
-
   const { darkMode } = useTheme();
   const [ProfileList, setProfileList] = useState(null);
-// নতুন state ডিক্লেয়ার করা হলো
-const [loading, setLoading] = useState(true);
+  // নতুন state ডিক্লেয়ার করা হলো
+  const [loading, setLoading] = useState(true);
 
+  //sidebar
 
+  const {
+    UserProfileRequest,
+    UpdaterFormValue,
+    UpdateFormOnChange,
+    UpdateRequest,
+    UserListRequest,
+  } = UserStore();
 
+  const [show, setShow] = useState(false);
 
-
-
-
-
-
-
-
-
-
-
-
-//sidebar 
-
-
-const {
-  
-  UpdaterFormValue,
-  UpdateFormOnChange,
-  UpdateRequest,
-  UserListRequest,
-} = UserStore();
-
-const [show, setShow] = useState(false);
-
-const handleClose = () => setShow(false);
-const handleShow = () => setShow(true);
-
-
-
-
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
 
   // Cloudinary Upload Function
-  const uploadToCloudinary = async (file) => {
+  const uploadToCloudinary = async file => {
     const formData = new FormData();
     formData.append("file", file); // File to upload
-  
-      formData.append("upload_preset", "First_time_using_cloudinary"); 
-      formData.append("cloud_name", "db2huzwrx"); 
-  
+
+    formData.append("upload_preset", "First_time_using_cloudinary");
+    formData.append("cloud_name", "db2huzwrx");
+
     try {
       const response = await axios.post(
         "https://api.cloudinary.com/v1_1/db2huzwrx/image/upload",
@@ -68,63 +48,12 @@ const handleShow = () => setShow(true);
     }
   };
 
-
-
-
-
-
-// const handleSave = async () => {
-// // Ensure that postBody is defined properly
-// const postBody = {};  // Initialize an empty object to store the updated data
-
-// // Filter out empty or undefined fields
-// Object.keys(UpdaterFormValue).forEach(key => {
-//   if (UpdaterFormValue[key] !== undefined && UpdaterFormValue[key] !== '') {
-//     postBody[key] = UpdaterFormValue[key];
-//   }
-// });
-
-// // Check if the postBody has any data to send
-// if (Object.keys(postBody).length === 0) {
-//   toast.error("No data to update");
-//   return;
-// }
-
-// try {
-//   // Send the filtered data (postBody) to the API
-//   let response = await UpdateRequest(postBody);
-
-
-
-//   if (response.status === "success") {
-//     // Directly update ProfileList with the new data
-//     setProfileList((prevProfileList) => ({
-//       ...prevProfileList,
-//       ...postBody,
-//     }));
-
-//     toast.success("Profile Updated Successfully");
-//     await UserListRequest();
-//     handleClose(); // Close the modal
-//   } else {
-//     toast.error("Profile Update Failed");
-//   }
-// } catch (err) {
-//   toast.error("Update failed: " + err.message);
-// }
-
-
-// };
-
-
-
-
   // Save Profile
   const handleSave = async () => {
     const postBody = {};
 
     // Filter out empty or undefined fields
-    Object.keys(UpdaterFormValue).forEach((key) => {
+    Object.keys(UpdaterFormValue).forEach(key => {
       if (UpdaterFormValue[key] !== undefined && UpdaterFormValue[key] !== "") {
         postBody[key] = UpdaterFormValue[key];
       }
@@ -153,12 +82,14 @@ const handleShow = () => setShow(true);
       const response = await UpdateRequest(postBody);
 
       if (response.status === "success") {
-        setProfileList((prevProfileList) => ({
+        setProfileList(prevProfileList => ({
           ...prevProfileList,
           ...postBody,
         }));
         toast.success("Profile Updated Successfully");
+        await UserProfileRequest();
         await UserListRequest();
+        await ProfileRequest(); 
         handleClose();
       } else {
         toast.error("Profile Update Failed");
@@ -168,27 +99,11 @@ const handleShow = () => setShow(true);
     }
   };
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
- //mainbar
-
+  //mainbar
 
   const ProfileRequest = async () => {
     try {
       const response = await axios.get("/api/getProfile");
-
 
       // Check if data exists
       if (response.data) {
@@ -204,22 +119,15 @@ const handleShow = () => setShow(true);
     }
   };
 
-
-
   useEffect(() => {
     (async () => {
       await ProfileRequest();
     })(); // Call the profile request when the component mounts
-  },  []);
+  }, []);
 
-
-
-
-
-
-if (!ProfileList) {
-  return <h1>No profile data available.</h1>;
-}
+  if (!ProfileList) {
+    return <h1>No profile data available.</h1>;
+  }
   return (
     <div
       className="container my-5"
@@ -311,9 +219,11 @@ if (!ProfileList) {
 
           {/* Buttons */}
           <div className="d-flex flex-wrap justify-content-center gap-2">
-            
-            <button className="btn btn-outline-secondary rounded-pill px-4"  onClick={handleShow}>
-             Eddit Profile
+            <button
+              className="btn btn-outline-secondary rounded-pill px-4"
+              onClick={handleShow}
+            >
+              Eddit Profile
             </button>
           </div>
         </div>
@@ -359,97 +269,85 @@ if (!ProfileList) {
         </div>
       </div>
 
-
-
-
-
-
-      
       <Modal show={show} onHide={handleClose}>
-          <Modal.Header closeButton>
-            <Modal.Title>Create New Blog</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            <Form>
-              <Form.Group controlId="formBlogTitle" className="mb-3">
-                <Form.Label>First Name</Form.Label>
-                <Form.Control
-                  value={UpdaterFormValue.firstName}
-                  onChange={event => {
-                    UpdateFormOnChange("firstName", event.target.value);
-                  }}
-                  type="text"
-                  placeholder="Enter Your FirstName"
-                />
-              </Form.Group>
+        <Modal.Header closeButton>
+          <Modal.Title>Create New Blog</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Form>
+            <Form.Group controlId="formBlogTitle" className="mb-3">
+              <Form.Label>First Name</Form.Label>
+              <Form.Control
+                value={UpdaterFormValue.firstName}
+                onChange={event => {
+                  UpdateFormOnChange("firstName", event.target.value);
+                }}
+                type="text"
+                placeholder="Enter Your FirstName"
+              />
+            </Form.Group>
 
-              <Form.Group controlId="formBlogTitle" className="mb-3">
-                <Form.Label> Last Name</Form.Label>
-                <Form.Control
-                  value={UpdaterFormValue.lastName}
-                  onChange={event => {
-                    UpdateFormOnChange("lastName", event.target.value);
-                  }}
-                  type="text"
-                  placeholder="Enter Your LastName"
-                />
-              </Form.Group>
+            <Form.Group controlId="formBlogTitle" className="mb-3">
+              <Form.Label> Last Name</Form.Label>
+              <Form.Control
+                value={UpdaterFormValue.lastName}
+                onChange={event => {
+                  UpdateFormOnChange("lastName", event.target.value);
+                }}
+                type="text"
+                placeholder="Enter Your LastName"
+              />
+            </Form.Group>
 
-              <Form.Group controlId="formShortDescription" className="mb-3">
-                <Form.Label>Enter Your bio</Form.Label>
-                <Form.Control
-                  value={UpdaterFormValue.bio}
-                  onChange={event => {
-                    UpdateFormOnChange("bio", event.target.value);
-                  }}
-                  as="textarea"
-                  rows={2}
-                  placeholder="Enter Your bio"
-                />
-              </Form.Group>
+            <Form.Group controlId="formShortDescription" className="mb-3">
+              <Form.Label>Enter Your bio</Form.Label>
+              <Form.Control
+                value={UpdaterFormValue.bio}
+                onChange={event => {
+                  UpdateFormOnChange("bio", event.target.value);
+                }}
+                as="textarea"
+                rows={2}
+                placeholder="Enter Your bio"
+              />
+            </Form.Group>
 
-              <Form.Group controlId="formImageUpload" className="mb-3">
-                <Form.Label>Upload Profile Picture</Form.Label>
-                <Form.Control
-                  //value={UpdaterFormValue.profilePicture}
-                  onChange={(e) => UpdateFormOnChange("profilePicture", e.target.files[0])}
-                     type="file"
-                  placeholder="Enter img URL"
-                />
-              </Form.Group>
+            <Form.Group controlId="formImageUpload" className="mb-3">
+              <Form.Label>Upload Profile Picture</Form.Label>
+              <Form.Control
+                //value={UpdaterFormValue.profilePicture}
+                onChange={e =>
+                  UpdateFormOnChange("profilePicture", e.target.files[0])
+                }
+                type="file"
+                placeholder="Enter img URL"
+              />
+            </Form.Group>
 
-              <Form.Group controlId="formImageUpload" className="mb-3">
-                <Form.Label>Upload Cover Picture</Form.Label>
-                <Form.Control
-                 // value={UpdaterFormValue.coverPicture}
-                  type="file"
-                  onChange={(e) => UpdateFormOnChange("coverPicture", e.target.files[0])}
-                
-          
-                  placeholder="Enter img URL"
-                />
-              </Form.Group>
-            </Form>
-          </Modal.Body>
-          <Modal.Footer>
-            <Button variant="secondary" onClick={handleClose}>
-              Close
-            </Button>
-            <Button variant="primary" onClick={handleSave}>
-              Save Blog
-            </Button>
-          </Modal.Footer>
-        </Modal>
+            <Form.Group controlId="formImageUpload" className="mb-3">
+              <Form.Label>Upload Cover Picture</Form.Label>
+              <Form.Control
+                // value={UpdaterFormValue.coverPicture}
+                type="file"
+                onChange={e =>
+                  UpdateFormOnChange("coverPicture", e.target.files[0])
+                }
+                placeholder="Enter img URL"
+              />
+            </Form.Group>
+          </Form>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleClose}>
+            Close
+          </Button>
+          <Button variant="primary" onClick={handleSave}>
+            Save Blog
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 };
 
 export default Profile;
-
-
-
-
-
-
-
-

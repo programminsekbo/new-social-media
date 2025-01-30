@@ -6,6 +6,7 @@ import toast from "react-hot-toast";
 
 import { useTheme } from "../../ThemeProvider/ThemeContext";
 import axios from "axios";
+import UserStore from "../../store/UserStore";
 
 const MentPost = () => {
   const {
@@ -15,6 +16,7 @@ const MentPost = () => {
     CreateBlogRequest,
     BlogListRequest,
   } = CreatePost();
+const{ProfileList}=UserStore()
 
   const { darkMode, toggleTheme } = useTheme();
 
@@ -61,33 +63,33 @@ const MentPost = () => {
     }
   };
 
-  const [ProfileList, setProfileList] = useState(null);
+  // const [ProfileList, setProfileList] = useState(null);
 
-  const [loading, setLoading] = useState(true);
+  // const [loading, setLoading] = useState(true);
 
-  const ProfileRequest = async () => {
-    try {
-      const response = await axios.get("/api/getProfile");
+  // const ProfileRequest = async () => {
+  //   try {
+  //     const response = await axios.get("/api/getProfile");
 
-      // Check if data exists
-      if (response.data) {
-        setProfileList(response.data); // Set profile data into the state
-        setLoading(false); // Set loading to false once data is fetched
-      } else {
-        console.error("Error fetching user data: No data available");
-        setLoading(false); // Set loading to false in case of error
-      }
-    } catch (error) {
-      console.error("Error fetching user data:", error);
-      setLoading(false); // Set loading to false in case of an error
-    }
-  };
+  //     // Check if data exists
+  //     if (response.data) {
+  //       setProfileList(response.data); // Set profile data into the state
+  //       setLoading(false); // Set loading to false once data is fetched
+  //     } else {
+  //       console.error("Error fetching user data: No data available");
+  //       setLoading(false); // Set loading to false in case of error
+  //     }
+  //   } catch (error) {
+  //     console.error("Error fetching user data:", error);
+  //     setLoading(false); // Set loading to false in case of an error
+  //   }
+  // };
 
-  useEffect(() => {
-    (async () => {
-      await ProfileRequest();
-    })(); // Call the profile request when the component mounts
-  }, []);
+  // useEffect(() => {
+  //   (async () => {
+  //     await ProfileRequest();
+  //   })(); // Call the profile request when the component mounts
+  // }, []);
 
   return (
     <div

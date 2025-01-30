@@ -6,10 +6,8 @@ export default defineConfig({
   plugins: [react()],
   server: {
     proxy: {
-      "/api": {
-        target: "https://new-social-media-ten.vercel.app",
-        changeOrigin: true,
-        secure: true,
+      "/api/": {
+        target: "http://localhost:5050",
       },
     },
   },

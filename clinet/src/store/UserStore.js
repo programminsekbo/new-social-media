@@ -200,10 +200,27 @@ LogoutRequest : async () => {
 
 
 
+    ProfileList: null,
+
+    UserProfileRequest: async () => {
+        try {
+            const response = await axios.get("/api/getProfile");
+    
+             // Debugging: Log the API response
+            console.log("Received Profile Data:", response.data);
+
+            // Set the data in the store or state
+            set({ ProfileList: response.data });
+    
+        } catch (error) {
+            console.error("Error fetching profile data:", error);
+        }
+      },
+        
 
 
 
-
+    
 
 
 

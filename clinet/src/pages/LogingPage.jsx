@@ -1,11 +1,12 @@
 import React from 'react';
 import Loging from '../component/LoginFrom/Loging';
+import Layout from '../component/NavBar/Layout';
 
 const LogingPage = () => {
     return (
-        <div>
+        <Layout>
            <Loging/> 
-        </div>
+        </Layout>
     );
 };
 

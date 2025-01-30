@@ -13,7 +13,7 @@ import { useParams } from 'react-router-dom';
 
 const HomePage = () => {
     const {BlogListRequest}=CreatePost();
-    const {UserListRequest}=UserStore();
+    const {UserListRequest,UserProfileRequest}=UserStore();
   
 
    
@@ -22,6 +22,7 @@ const HomePage = () => {
         (async()=>{
         await BlogListRequest()
         await UserListRequest()
+        await UserProfileRequest()
    
      
     
@@ -43,10 +44,12 @@ const HomePage = () => {
         
    <div className="container-fluid  ">
  
-       <div className="row"  style={{ paddingTop: "80px" }}>
-      <SidBar/>
+       <div className="row"  style={{ paddingTop: "70px" }}>
+       <SidBar/>
       <MainContent />
-       <RightSidebar />
+       <RightSidebar /> 
+
+
       </div>    
        </div>
      

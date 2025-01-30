@@ -6,44 +6,45 @@ import { MdOutlineDarkMode } from "react-icons/md";
 import logo from '../../assets/images/social-media-word-in-rectangles-background-2CAGTWB.jpg'
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import UserStore from '../../store/UserStore';
 
 const NevBar = () => {
 
- 
+ const { ProfileList,ProfileRequest } = UserStore();
 
   const { darkMode, toggleTheme } = useTheme();
 
  
 
-  const [ProfileList, setProfileList] = useState(null);
+  // const [ProfileList, setProfileList] = useState(null);
   
-  const [loading, setLoading] = useState(true); 
+  // const [loading, setLoading] = useState(true); 
  
-   const ProfileRequest = async () => {
-   try {
-     const response = await axios.get('/api/getProfile');
+  //  const ProfileRequest = async () => {
+  //  try {
+  //    const response = await  axios.get('/api/getProfile');
  
    
-      // Check if data exists
-    if (response.data) {
-       setProfileList(response.data);  // Set profile data into the state
-        setLoading(false);  // Set loading to false once data is fetched
-       } else {
-        console.error('Error fetching user data: No data available');
-       setLoading(false);  // Set loading to false in case of error
-    }
-    } catch (error) {
-     console.error('Error fetching user data:', error);
-      setLoading(false);  // Set loading to false in case of an error
-    }
-  };
+  //     // Check if data exists
+  //   if (response.data) {
+  //      setProfileList(response.data);  // Set profile data into the state
+  //       setLoading(false);  // Set loading to false once data is fetched
+  //      } else {
+  //       console.error('Error fetching user data: No data available');
+  //      setLoading(false);  // Set loading to false in case of error
+  //   }
+  //   } catch (error) {
+  //    console.error('Error fetching user data:', error);
+  //     setLoading(false);  // Set loading to false in case of an error
+  //   }
+  // };
    
-   useEffect(() => {
-    (async()=>{
-  await  ProfileRequest();
+  //  useEffect(() => {
+  //   (async()=>{
+  // await  ProfileRequest();
  
-    })()  // Call the profile request when the component mounts
-   }, []);
+  //   })()  // Call the profile request when the component mounts
+  //  }, []);
  
 
 

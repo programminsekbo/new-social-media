@@ -3,20 +3,26 @@ import axios from 'axios'; // Added axios import
 import { CiSearch } from "react-icons/ci";
 import UserStore from '../../store/UserStore';
 import { useTheme } from '../../ThemeProvider/ThemeContext';
+import toast from 'react-hot-toast';
 
 const Follow = () => {
-  const { UserList } = UserStore();
+  const { UserList,UserProfileRequest } = UserStore();
   const { darkMode, toggleTheme } = useTheme();
- 
+
 
 
   const [followingStatus, setFollowingStatus] = useState({});
+
+
+ 
 
   // Handle follow action
   const handleFollow = async (userId) => {
     try {
       await axios.post(`/api/followUserController/${userId}`);
       setFollowingStatus((prev) => ({ ...prev, [userId]: true }));
+      toast.success("Followed successfully!");
+      await UserProfileRequest();
     } catch (error) {
       console.error("Failed to follow:", error);
     }
@@ -27,10 +33,17 @@ const Follow = () => {
     try {
       await axios.post(`/api/unfollowUserController/${userId}`);
       setFollowingStatus((prev) => ({ ...prev, [userId]: false }));
+      toast.success("Unfollowed successfully!");
+      await UserProfileRequest();
     } catch (error) {
       console.error("Failed to unfollow:", error);
     }
   };
+
+
+
+
+
 
   if (!UserList || UserList.length === 0) {
     return <h1>No users to follow</h1>;
