@@ -91,7 +91,7 @@ set((state) => ({
 // Register Request-
 RegisterRequest : async (postBody) => {
 try {
-    let response = await axios.post(`/api/CreateUserProfile`, postBody);
+    let response = await axios.post(`https://new-social-media-ten.vercel.app/api/CreateUserProfile`, postBody);
     return response.data;
 } catch (e) {
     console.error('Error registering user:', e)
@@ -110,7 +110,7 @@ UpdateRequest : async (postBody) => {
     try {
         // হেডারে user_id পাঠানো হচ্ছে
         const response = await axios.post(
-            '/api/UpdateUserProfile',
+            'https://new-social-media-ten.vercel.app/api/UpdateUserProfile',
             postBody,  
             {
                 headers: {
@@ -155,7 +155,7 @@ try {
 VerifyLoginRequest : async (otp) => {
 try {  
     let email = sessionStorage.getItem('email');
-    let response = await axios.post(`/api/VerifyLogin`,{email: email, otp: otp});
+    let response = await axios.post(`https://new-social-media-ten.vercel.app/api/VerifyLogin`,{email: email, otp: otp});
     cookie.set('token', response.data.token);
     return response.data
 } catch (e) {
