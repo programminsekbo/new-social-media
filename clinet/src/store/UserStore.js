@@ -173,7 +173,7 @@ try {
  UserList : null,
  UserListRequest : async () => {
    
-       const response = await axios.get('/api/getUser')
+       const response = await axios.get('https://new-social-media-ten.vercel.app/api/getUser')
     
       if(response.data['status']==='success'){
           set({UserList :response.data.data})
@@ -188,7 +188,7 @@ try {
 //LogoutRequest
 LogoutRequest : async () => {
     try {
-     let res=await axios.get(`/api/UserLogout`);
+     let res=await axios.get(`https://new-social-media-ten.vercel.app/api/UserLogout`);
        return res.data['status']=='success';
     } catch (e) {
         console.error('Error registering user:', e)

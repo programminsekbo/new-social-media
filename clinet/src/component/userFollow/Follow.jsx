@@ -15,7 +15,7 @@ const Follow = () => {
   // Handle follow action
   const handleFollow = async (userId) => {
     try {
-      await axios.post(`/api/followUserController/${userId}`);
+      await axios.post(`https://new-social-media-ten.vercel.app/api/followUserController/${userId}`);
       setFollowingStatus((prev) => ({ ...prev, [userId]: true }));
     } catch (error) {
       console.error("Failed to follow:", error);
@@ -25,7 +25,7 @@ const Follow = () => {
   // Handle unfollow action
   const handleUnfollow = async (userId) => {
     try {
-      await axios.post(`/api/unfollowUserController/${userId}`);
+      await axios.post(`https://new-social-media-ten.vercel.app/api/unfollowUserController/${userId}`);
       setFollowingStatus((prev) => ({ ...prev, [userId]: false }));
     } catch (error) {
       console.error("Failed to unfollow:", error);

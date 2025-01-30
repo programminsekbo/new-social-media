@@ -16,7 +16,7 @@ const CreatePost = create(set => ({
 
   
   BlogListRequest: async () => {
-    const response = await axios.get("/api/getPost");
+    const response = await axios.get("https://new-social-media-ten.vercel.app/api/getPost");
  
     if (response.data["status"] === "success") {
       set({ BlogList: response.data.data });
@@ -31,7 +31,7 @@ const CreatePost = create(set => ({
 
   BlogListDetails: null,
   BlogListDetailsRequest: async id => {
-    const response = await axios.get(`/api/getBlogById/${id}`);
+    const response = await axios.get(`https://new-social-media-ten.vercel.app/api/getBlogById/${id}`);
     const data = await response.data;
   },
 
@@ -52,7 +52,7 @@ const CreatePost = create(set => ({
 
   CreateBlogRequest: async postBody => {
     try {
-      let response = await axios.post(`/api/createPost`, postBody);
+      let response = await axios.post(`https://new-social-media-ten.vercel.app/api/createPost`, postBody);
 
       return response.data;
     } catch (e) {
@@ -79,7 +79,7 @@ const CreatePost = create(set => ({
     try {
       const currentUserId = "your-user-id"; // Replace this with the actual user ID
       const response = await axios.post(
-        "/api/deletePost",  // Backend endpoint
+        "https://new-social-media-ten.vercel.app/api/deletePost",  // Backend endpoint
         { id: blogId },  // Blog ID to delete
         { headers: { user_id: currentUserId } }  // Sending user_id in the headers
       );
@@ -105,7 +105,7 @@ const CreatePost = create(set => ({
   // Remove a blog
   UpdateBlogRequest: async postBody => {
     try {
-     const response= await axios.post(`/api/updatePost`, postBody);
+     const response= await axios.post(`https://new-social-media-ten.vercel.app/api/updatePost`, postBody);
 
     } catch (e) {
       console.error("Error updating:", e);
@@ -145,7 +145,7 @@ const CreatePost = create(set => ({
 
   LikeListRequest: async (postId, currentUserId) => {
     try {
-      const response = await axios.post(`/api/likePostController/${postId}`,  {
+      const response = await axios.post(`https://new-social-media-ten.vercel.app/api/likePostController/${postId}`,  {
         userId: currentUserId, // Send user ID in the body if required
       });
       if (response.data.status === "success") {
@@ -167,7 +167,7 @@ const CreatePost = create(set => ({
 
 UnLikeListRequest: async (postId, currentUserId) => {
   try {
-    const response = await axios.post(`/api/unlikePostController/${postId}`, {
+    const response = await axios.post(`https://new-social-media-ten.vercel.app/api/unlikePostController/${postId}`, {
       userId: currentUserId, // Send user ID in the body
     });
     if (response.data.status === "success") {
@@ -229,7 +229,7 @@ sharePost: async (postId, currentUserId) => {
 
 unsharePost: async (postId, currentUserId) => {
   try {
-    const response = await axios.post(`/api/unsharePostController/${postId}`, {
+    const response = await axios.post(`https://new-social-media-ten.vercel.app/api/unsharePostController/${postId}`, {
       userId: currentUserId, // Send user ID in the body
     });
     if (response.data.status === "success") {
