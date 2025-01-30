@@ -8,6 +8,8 @@ export default defineConfig({
     proxy: {
       "/api/": {
         target: "https://new-social-media-ten.vercel.app",
+        changeOrigin: true,
+        secure: true,
       },
     },
   },
