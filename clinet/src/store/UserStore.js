@@ -137,7 +137,7 @@ UpdateRequest : async (postBody) => {
 // Login Request
 LoginRequest : async (postBody) => {
 try {
-    let response = await axios.post(`/api/Login`, postBody);
+    let response = await axios.post(`https://new-social-media-ten.vercel.app/api/Login`, postBody);
     sessionStorage.setItem('email', postBody.email);
     return response.data;
     
