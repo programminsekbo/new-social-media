@@ -11,7 +11,7 @@ const CommentStore =  create(set => ({
 
   CommentDetailsRequest: async (postId) => {
     try {
-      const response = await axios.get(`https://new-social-media-ten.vercel.app/api/getCommentsByPost/${postId}`);
+      const response = await axios.get(`/api/getCommentsByPost/${postId}`);
       console.log("API Response: ", response.data); // Log the entire response
   
       if (response.data.status === "success") {
@@ -44,7 +44,7 @@ const CommentStore =  create(set => ({
   CommentBlogRequest : async (payload) => {
     try {
      
-      const response = await axios.post('https://new-social-media-ten.vercel.app/api/createComment', payload);
+      const response = await axios.post('/api/createComment', payload);
       
     } catch (error) {
       console.error("Error registering user:", error.response ? error.response.data : error.message);

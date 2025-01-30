@@ -91,7 +91,7 @@ set((state) => ({
 // Register Request-
 RegisterRequest : async (postBody) => {
 try {
-    let response = await axios.post(`https://new-social-media-ten.vercel.app/api/CreateUserProfile`, postBody);
+    let response = await axios.post(`/api/CreateUserProfile`, postBody);
     return response.data;
 } catch (e) {
     console.error('Error registering user:', e)
@@ -110,7 +110,7 @@ UpdateRequest : async (postBody) => {
     try {
         // হেডারে user_id পাঠানো হচ্ছে
         const response = await axios.post(
-            'https://new-social-media-ten.vercel.app/api/UpdateUserProfile',
+            '/api/UpdateUserProfile',
             postBody,  
             {
                 headers: {
@@ -137,7 +137,7 @@ UpdateRequest : async (postBody) => {
 // Login Request
 LoginRequest : async (postBody) => {
 try {
-    let response = await axios.post(`https://new-social-media-ten.vercel.app/api/Login`, postBody);
+    let response = await axios.post(`/api/Login`, postBody);
     sessionStorage.setItem('email', postBody.email);
     return response.data;
     
@@ -155,7 +155,7 @@ try {
 VerifyLoginRequest : async (otp) => {
 try {  
     let email = sessionStorage.getItem('email');
-    let response = await axios.post(`https://new-social-media-ten.vercel.app/api/VerifyLogin`,{email: email, otp: otp});
+    let response = await axios.post(`/api/VerifyLogin`,{email: email, otp: otp});
     cookie.set('token', response.data.token);
     return response.data
 } catch (e) {
@@ -173,7 +173,7 @@ try {
  UserList : null,
  UserListRequest : async () => {
    
-       const response = await axios.get('https://new-social-media-ten.vercel.app/api/getUser')
+       const response = await axios.get('/api/getUser')
     
       if(response.data['status']==='success'){
           set({UserList :response.data.data})
@@ -188,7 +188,7 @@ try {
 //LogoutRequest
 LogoutRequest : async () => {
     try {
-     let res=await axios.get(`https://new-social-media-ten.vercel.app/api/UserLogout`);
+     let res=await axios.get(`/api/UserLogout`);
        return res.data['status']=='success';
     } catch (e) {
         console.error('Error registering user:', e)

@@ -21,7 +21,7 @@ const NevBar = () => {
  
    const ProfileRequest = async () => {
    try {
-     const response = await axios.get('https://new-social-media-ten.vercel.app/api/getProfile');
+     const response = await axios.get('/api/getProfile');
  
    
       // Check if data exists
